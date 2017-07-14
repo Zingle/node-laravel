@@ -1,0 +1,19 @@
+{
+  "name": "node-laravel",
+  "version": "0.0.1",
+  "description": "Laravel interop library",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Zingle/node-laravel.git"
+  },
+  "author": "Richard Remer <reanjr@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Zingle/node-laravel/issues"
+  },
+  "homepage": "https://github.com/Zingle/node-laravel#readme"
+}
