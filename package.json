@@ -2,7 +2,7 @@
   "name": "node-laravel",
   "version": "0.0.1",
   "description": "Laravel interop library",
-  "main": "index.js",
+  "main": "node-laravel.js",
   "scripts": {
     "test": "mocha"
   },
