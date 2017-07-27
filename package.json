@@ -1,6 +1,6 @@
 {
   "name": "node-laravel",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Laravel interop library",
   "main": "node-laravel.js",
   "scripts": {
