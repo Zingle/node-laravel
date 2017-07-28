@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Zingle/node-laravel/issues"
   },
-  "homepage": "https://github.com/Zingle/node-laravel#readme"
+  "homepage": "https://github.com/Zingle/node-laravel#readme",
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^3.4.2"
+  }
 }
