@@ -1,6 +1,7 @@
 const expect = require("expect.js");
 const deserialize = require("../lib/deserialize");
 const decrypt = require("../lib/decrypt");
+const encrypt = require("../lib/encrypt");
 const keys = Object.keys;
 
 const key = "12345678911234567892123456789312";
@@ -20,6 +21,27 @@ const cipher = "ff1b56874bd6c3c02f340fd45e9182ee";
 //  }' | php serialize.php
 const phpdata = 'O:8:"stdClass":7:{s:4:"true";b:1;s:5:"false";b:0;s:7:"integer";i:23;s:5:"float";d:23.129999999999999;s:6:"string";s:3:"foo";s:5:"array";a:2:{i:0;s:5:"apple";i:1;s:6:"banana";}s:6:"object";O:8:"stdClass":1:{s:5:"apple";s:6:"banana";}}';
 
+describe("encrypt(key, iv, string|Buffer) => Buffer", () => {
+    it("should return encrypted buffer", () => {
+        expect(encrypt(key, iv, plain)).to.be.a(Buffer);
+        expect(encrypt(key, iv, plain).toString("hex")).to.be(cipher);
+    });
+
+    it("should accept string or buffer", () => {
+        const strval = encrypt(key, iv, plain).toString();
+        const bufval = encrypt(key, iv, new Buffer(plain)).toString();
+        expect(strval).to.be(bufval);
+    });
+
+    it("should error on bad key length", () => {
+        expect(() => encrypt("key", iv, plain)).to.throwError();
+    });
+
+    it("should error on bad iv length", () => {
+        expect(() => encrypt(key, "iv", plain)).to.throwError();
+    });
+});
+
 describe("decrypt(key, iv, string|Buffer) => string", () => {
     it("should return decrypted string", () => {
         expect(decrypt(key, iv, new Buffer(cipher, "hex"))).to.be(plain);
@@ -37,6 +59,16 @@ describe("decrypt(key, iv, string|Buffer) => string", () => {
 
     it("should error on bad iv length", () => {
         expect(() => decrypt(key, "iv", "foo")).to.throwError();
+    });
+});
+
+describe("encrypt/decrypt", () => {
+    it("should be reversible", () => {
+        const string = "aslsfhgwiugfliwuhgfi82hf";
+        const encrypted = encrypt(key, iv, string);
+        const decrypted = decrypt(key, iv, encrypted);
+
+        expect(decrypted).to.be(string);
     });
 });
 
