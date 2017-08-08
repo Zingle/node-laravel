@@ -2,12 +2,21 @@ const expect = require("expect.js");
 const deserialize = require("../lib/deserialize");
 const decrypt = require("../lib/decrypt");
 const encrypt = require("../lib/encrypt");
+const readCookie = require("../lib/read-cookie");
 const keys = Object.keys;
 
 const key = "12345678911234567892123456789312";
 const iv = "1234567891123456";
 const plain = "foo";
 const cipher = "ff1b56874bd6c3c02f340fd45e9182ee";
+
+// generated using (note PHP serialized '42' which matches id below):
+// new Buffer(JSON.stringify({
+//     iv: new Buffer(iv).toString("base64"),
+//     value: encrypt(key, iv, 's:2:"42";').toString("base64")
+// })).toString("base64");
+const cookie = "eyJpdiI6Ik1USXpORFUyTnpnNU1URXlNelExTmc9PSIsInZhbHVlIjoiRWdZeGFKTDVpRTM3NkJickNJbXlhdz09In0=";
+const id = "42";
 
 // generated using serialize.php script in this directory:
 //  echo '{
@@ -114,5 +123,11 @@ describe("deserialize(string) => *", () => {
     it("should recognize object value", () => {
         expect(result.object).to.be.an("object");
         expect(result.object.apple).to.be("banana");
+    });
+});
+
+describe("readCookie(key, cookie) => string", () => {
+    it("should decode/parse/decrypt session cookie", () => {
+        expect(readCookie(key, cookie)).to.be(id);
     });
 });
