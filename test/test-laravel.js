@@ -1,9 +1,10 @@
 const expect = require("expect.js");
-const deserialize = require("../lib/deserialize");
-const decrypt = require("../lib/decrypt");
-const encrypt = require("../lib/encrypt");
-const readCookie = require("../lib/read-cookie");
-const readCookies = require("../lib/read-cookies");
+const laravel = require("..");
+const deserialize = laravel.deserialize;
+const decrypt = laravel.decrypt;
+const encrypt = laravel.encrypt;
+const readCookie = laravel.readCookie;
+const readCookies = laravel.readCookies;
 const keys = Object.keys;
 
 const key = "12345678911234567892123456789312";
