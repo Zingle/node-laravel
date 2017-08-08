@@ -3,6 +3,7 @@ const deserialize = require("../lib/deserialize");
 const decrypt = require("../lib/decrypt");
 const encrypt = require("../lib/encrypt");
 const readCookie = require("../lib/read-cookie");
+const readCookies = require("../lib/read-cookies");
 const keys = Object.keys;
 
 const key = "12345678911234567892123456789312";
@@ -129,5 +130,11 @@ describe("deserialize(string) => *", () => {
 describe("readCookie(key, cookie) => string", () => {
     it("should decode/parse/decrypt session cookie", () => {
         expect(readCookie(key, cookie)).to.be(id);
+    });
+});
+
+describe("readCookies(key, cookieName, cookies) => string", () => {
+    it("should read cookie from cookies object", () => {
+        expect(readCookies(key, "foo", {foo: cookie})).to.be(id);
     });
 });
