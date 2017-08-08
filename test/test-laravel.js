@@ -134,8 +134,12 @@ describe("readCookie(key, cookie) => string", () => {
     });
 });
 
-describe("readCookies(key, cookieName, cookies) => string", () => {
+describe("readCookies(key, [cookieName], cookies) => string", () => {
     it("should read cookie from cookies object", () => {
         expect(readCookies(key, "foo", {foo: cookie})).to.be(id);
+    });
+
+    it("should use 'laravel_session' as default cookie name", () => {
+        expect(readCookies(key, {laravel_session: cookie})).to.be(id);
     });
 });
