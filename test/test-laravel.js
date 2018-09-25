@@ -12,12 +12,21 @@ const iv = "1234567891123456";
 const plain = "foo";
 const cipher = "ff1b56874bd6c3c02f340fd45e9182ee";
 
-// generated using (note PHP serialized '42' which matches id below):
+// Laravel 5.5 cookie generated using:
+// new Buffer(JSON.stringify({
+//     iv: new Buffer(iv).toString("base64"),
+//     value: encrypt(key, iv, "42").toString("base64")
+// })).toString("base64");
+const lar55cookie = "eyJpdiI6Ik1USXpORFUyTnpnNU1URXlNelExTmc9PSIsInZhbHVlIjoibWl6ZnU3UCtoSkpOY2JrVGNYRmthUT09In0=";
+
+// Laravel 5.4 cookie generated using (note PHP serialized "42"):
 // new Buffer(JSON.stringify({
 //     iv: new Buffer(iv).toString("base64"),
 //     value: encrypt(key, iv, 's:2:"42";').toString("base64")
 // })).toString("base64");
-const cookie = "eyJpdiI6Ik1USXpORFUyTnpnNU1URXlNelExTmc9PSIsInZhbHVlIjoiRWdZeGFKTDVpRTM3NkJickNJbXlhdz09In0=";
+const lar54cookie = "eyJpdiI6Ik1USXpORFUyTnpnNU1URXlNelExTmc9PSIsInZhbHVlIjoiRWdZeGFKTDVpRTM3NkJickNJbXlhdz09In0=";
+
+// id expected to be found in cookies above
 const id = "42";
 
 // generated using serialize.php script in this directory:
@@ -129,17 +138,21 @@ describe("deserialize(string) => *", () => {
 });
 
 describe("readCookie(key, cookie) => string", () => {
-    it("should decode/parse/decrypt session cookie", () => {
-        expect(readCookie(key, cookie)).to.be(id);
+    it("should process Laravel 5.4 session cookie", () => {
+        expect(readCookie(key, lar54cookie)).to.be(id);
+    });
+
+    it("should process Laravel 5.5 session cookie", () => {
+        expect(readCookie(key, lar55cookie)).to.be(id);
     });
 });
 
 describe("readCookies(key, [cookieName], cookies) => string", () => {
     it("should read cookie from cookies object", () => {
-        expect(readCookies(key, "foo", {foo: cookie})).to.be(id);
+        expect(readCookies(key, "foo", {foo: lar54cookie})).to.be(id);
     });
 
     it("should use 'laravel_session' as default cookie name", () => {
-        expect(readCookies(key, {laravel_session: cookie})).to.be(id);
+        expect(readCookies(key, {laravel_session: lar55cookie})).to.be(id);
     });
 });
