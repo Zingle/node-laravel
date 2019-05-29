@@ -1,10 +1,8 @@
 const expect = require("expect.js");
 const laravel = require("..");
-const deserialize = laravel.deserialize;
-const decrypt = laravel.decrypt;
-const encrypt = laravel.encrypt;
-const readCookie = laravel.readCookie;
-const readCookies = laravel.readCookies;
+const {deserialize} = laravel;
+const {decrypt, encrypt} = laravel;
+const {generateCookie, readCookie, readCookies} = laravel;
 const keys = Object.keys;
 
 const key = "12345678911234567892123456789312";
@@ -154,5 +152,12 @@ describe("readCookies(key, [cookieName], cookies) => string", () => {
 
     it("should use 'laravel_session' as default cookie name", () => {
         expect(readCookies(key, {laravel_session: lar55cookie})).to.be(id);
+    });
+});
+
+describe("generateCookie(key, sessionId)", () => {
+    it("should generate readable cookie value", () => {
+        const cookie = generateCookie(key, id);
+        expect(readCookies(key, {laravel_session: cookie})).to.be(id);
     });
 });
